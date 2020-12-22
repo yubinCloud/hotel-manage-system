@@ -19,4 +19,8 @@ public interface OrderMapper {
     // 查看某一段时间的已预订房间
     public List<SimplifyOrder> orderedRooms(@Param("startTime") LocalDateTime startTime,
                                             @Param("endTime") LocalDateTime endTime);
+
+    // 计算某一段时间的总营收
+    public double computeProfits(@Param("startTime") LocalDateTime startTime,
+                               @Param("endTime") LocalDateTime endTime);
 }

@@ -35,4 +35,10 @@
         LEFT JOIN hotel.guest g ON g.id_num = od.guest_id
         WHERE od.id = ${orderId};
     </select>
+
+    <select id="computeProfits" resultType="double">
+        SELECT SUM(real_pay) profit
+        FROM hotel.`order` as od
+        WHERE check_in_time > #{startTime} AND check_in_time &lt;= #{endTime};
+    </select>
 </mapper>

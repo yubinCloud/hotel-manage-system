@@ -46,5 +46,41 @@ public class OrderController {
         return new ResponseData(ExceptionMsg.SUCCESS, result);
     }
 
+    /**
+     * 获取某一天的利润
+     * @param year 年
+     * @param month 月
+     * @param day 日
+     * @return 响应数据
+     */
+    @RequestMapping(value = "/profit/day", method = RequestMethod.GET)
+    public Object computeProfitsOfDay(@RequestParam("year") int year,
+                                      @RequestParam("month") int month,
+                                      @RequestParam("day") int day) {
+        LocalDateTime startTime = LocalDateTime.of(year, month, day, 12, 0);
+        LocalDateTime endTime = startTime.plusDays(1);
+        return new ResponseData(ExceptionMsg.SUCCESS, orderMapper.computeProfits(startTime, endTime));
+    }
+
+    /**
+     * 获取某一个月的利润
+     * @param year 年
+     * @param month 月
+     * @return 响应数据
+     */
+    @RequestMapping(value = "profit/month", method = RequestMethod.GET)
+    public Object computeProfitsOfMonth(@RequestParam("year") int year,
+                                        @RequestParam("month") int month) {
+        LocalDateTime startTime = LocalDateTime.of(year, month, 1, 12, 0);
+        LocalDateTime endTime = startTime.plusMonths(1);
+        return new ResponseData(ExceptionMsg.SUCCESS, orderMapper.computeProfits(startTime, endTime));
+    }
+
+    @RequestMapping(value = "profit/year", method = RequestMethod.GET)
+    public Object computeProfitsOfYear(@RequestParam("year") int year) {
+        LocalDateTime startTime = LocalDateTime.of(year, 1, 1, 12, 0);
+        LocalDateTime endTime = startTime.plusYears(1);
+        return new ResponseData(ExceptionMsg.SUCCESS, orderMapper.computeProfits(startTime, endTime));
+    }
 
 }
