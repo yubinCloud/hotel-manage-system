@@ -2,6 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.yubin.hotelSys.dao.OrderMapper">
+    <resultMap id="simplifyOrderMap" type="com.yubin.hotelSys.model.SimplifyOrder">
+        <id property="id" column="oid" />
+        <result property="roomId" column="rid" />
+    </resultMap>
+
     <resultMap id="orderMap" type="com.yubin.hotelSys.model.Order">
         <id property="id" column="oid" />
 
@@ -16,9 +21,9 @@
         </association>
     </resultMap>
     
-    <select id="orderedRooms" resultType="java.lang.String">
-        SELECT `order`.room_id
-        FROM hotel.order
+    <select id="orderedRooms" resultMap="simplifyOrderMap">
+        SELECT od.id oid, od.room_id rid
+        FROM hotel.order od
         WHERE check_in_time > #{startTime} AND check_in_time &lt;= #{endTime}
     </select>
 

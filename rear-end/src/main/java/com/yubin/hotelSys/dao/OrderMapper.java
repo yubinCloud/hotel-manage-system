@@ -1,6 +1,7 @@
 package com.yubin.hotelSys.dao;
 
 import com.yubin.hotelSys.model.Order;
+import com.yubin.hotelSys.model.SimplifyOrder;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -16,6 +17,6 @@ public interface OrderMapper {
     public Order selectOrder(@Param("orderId") long orderId);
 
     // 查看某一段时间的已预订房间
-    public List<String> orderedRooms(@Param("startTime") LocalDateTime startTime,
-                                     @Param("endTime") LocalDateTime endTime);
+    public List<SimplifyOrder> orderedRooms(@Param("startTime") LocalDateTime startTime,
+                                            @Param("endTime") LocalDateTime endTime);
 }
