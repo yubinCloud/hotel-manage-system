@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `Order` (
     `guest_id` VARCHAR(255) NOT NULL ,
     `check_in_time` DATETIME ,
     `check_out_time` DATETIME ,
-    `real_pay` DOUBLE ,
+    `real_pay` DOUBLE DEFAULT 0,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8;
 

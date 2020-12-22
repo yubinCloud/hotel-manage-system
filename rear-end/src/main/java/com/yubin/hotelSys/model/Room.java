@@ -3,6 +3,7 @@ package com.yubin.hotelSys.model;
 public class Room {
     private String id;
     private String name;
+    private int typeId;
     private int floor;
     private String desc;
 
