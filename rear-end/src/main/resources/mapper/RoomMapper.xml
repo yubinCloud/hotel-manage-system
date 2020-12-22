@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.yubin.hotelSys.dao.RoomMapper">
+    <resultMap id="roomMap" type="com.yubin.hotelSys.model.Room">
+        <id property="id" column="rid" />
+        <result property="name" column="rname" />
+        <result property="floor" column="floor" />
+        <result property="desc" column="rdesc" />
+        
+        <association property="roomType" javaType="com.yubin.hotelSys.model.RoomType">
+            <id property="id" column="tid" />
+            <result property="name" column="tname" />
+            <result property="stdPrice" column="std_price" />
+        </association>
+    </resultMap>
+    
+    <select id="showAllRoom" resultMap="roomMap">
+        SELECT r.id rid, r.name rname, floor, r.`desc` rdesc, rt.id tid, rt.name tname, std_price
+        FROM hotel.room AS r
+        LEFT JOIN hotel.roomtype rt ON r.type_id = rt.id;
+    </select>
+</mapper>
