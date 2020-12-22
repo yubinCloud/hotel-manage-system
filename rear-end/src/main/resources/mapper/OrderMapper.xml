@@ -2,14 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.yubin.hotelSys.dao.OrderMapper">
+    <resultMap id="orderMap" type="com.yubin.hotelSys.model.Order">
+        <id property="id" column="oid" />
+
+        <association property="room" javaType="com.yubin.hotelSys.model.Room">
+            <id property="id" column="rid" />
+            <result property="name" column="rname" />
+            <result property="desc" column="rdesc" />
+        </association>
+        <association property="guest" javaType="com.yubin.hotelSys.model.Guest">
+            <id property="id" column="id_num" />
+            <result property="name" column="gname" />
+        </association>
+    </resultMap>
+    
     <select id="orderedRooms" resultType="java.lang.String">
         SELECT `order`.room_id
         FROM hotel.order
         WHERE check_in_time > #{startTime} AND check_in_time &lt;= #{endTime}
     </select>
 
-    <select id="selectOrder" resultType="com.yubin.hotelSys.model.Order">
-        SELECT *
+    <select id="selectOrder" resultMap="orderMap">
+        SELECT od.id oid, room_id, guest_id, check_in_time, check_out_time, real_pay, r.id rid, r.name rname, type_id, floor, `desc` rdesc, id_num, g.name gname, phone, sex, age
         FROM hotel.`order` od
         LEFT JOIN hotel.room r ON r.id = od.room_id
         LEFT JOIN hotel.guest g ON g.id_num = od.guest_id

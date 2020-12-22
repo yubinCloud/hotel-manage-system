@@ -17,3 +17,4 @@ mybatis:
   type-aliases-package: com.example.studb.entity
   configuration:
     map-underscore-to-camel-case: true
+    auto-mapping-behavior: full
