@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.yubin.hotelSys.dao.OrderMapper">
+    <select id="orderedRooms" resultType="java.lang.String">
+        SELECT `order`.room_id
+        FROM hotel.order
+        WHERE check_in_time > #{startTime} AND check_in_time &lt;= #{endTime}
+    </select>
+
+    <select id="selectOrder" resultType="com.yubin.hotelSys.model.Order">
+        SELECT *
+        FROM hotel.`order` od
+        LEFT JOIN hotel.room r ON r.id = od.room_id
+        LEFT JOIN hotel.guest g ON g.id_num = od.guest_id
+        WHERE od.id = ${orderId};
+    </select>
+</mapper>
