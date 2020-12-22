@@ -33,6 +33,7 @@ CREATE TABLE IF NOT EXISTS `Order` (
     `check_in_time` DATETIME ,
     `check_out_time` DATETIME ,
     `real_pay` DOUBLE DEFAULT 0,
+    `group` VARCHAR(255) ,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8;
 

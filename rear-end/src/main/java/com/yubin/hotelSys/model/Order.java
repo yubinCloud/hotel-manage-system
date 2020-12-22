@@ -9,6 +9,7 @@ public class Order {
     private LocalDateTime checkInTime;
     private LocalDateTime checkOutTime;
     private Double realPay;
+    private String group;
 
     private Room room;
     private Guest guest;
@@ -75,5 +76,13 @@ public class Order {
 
     public void setGuest(Guest guest) {
         this.guest = guest;
+    }
+
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
     }
 }

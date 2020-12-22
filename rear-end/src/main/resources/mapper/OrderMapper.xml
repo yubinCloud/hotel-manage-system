@@ -9,6 +9,7 @@
 
     <resultMap id="orderMap" type="com.yubin.hotelSys.model.Order">
         <id property="id" column="oid" />
+        <result property="group" column="gp" />
 
         <association property="room" javaType="com.yubin.hotelSys.model.Room">
             <id property="id" column="rid" />
@@ -28,7 +29,7 @@
     </select>
 
     <select id="selectOrder" resultMap="orderMap">
-        SELECT od.id oid, room_id, guest_id, check_in_time, check_out_time, real_pay, r.id rid, r.name rname, type_id, floor, `desc` rdesc, id_num, g.name gname, phone, sex, age
+        SELECT od.id oid, room_id, guest_id, check_in_time, check_out_time, real_pay, od.`group` gp, r.id rid, r.name rname, type_id, floor, `desc` rdesc, id_num, g.name gname, phone, sex, age
         FROM hotel.`order` od
         LEFT JOIN hotel.room r ON r.id = od.room_id
         LEFT JOIN hotel.guest g ON g.id_num = od.guest_id
