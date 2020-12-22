@@ -21,10 +21,5 @@
         LEFT JOIN hotel.roomtype rt ON r.type_id = rt.id;
     </select>
 
-    <select id="orderedRooms" resultType="java.lang.String">
-        SELECT `order`.room_id
-        FROM hotel.order
-        WHERE check_in_time > #{startTime} AND check_in_time &lt;= #{endTime}
-    </select>
 
 </mapper>

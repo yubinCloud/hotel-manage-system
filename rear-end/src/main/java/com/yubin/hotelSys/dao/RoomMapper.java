@@ -16,7 +16,4 @@ public interface RoomMapper {
     // 展示所有房间
     public List<Room> showAllRoom();
 
-    // 查看某一段时间的已预订房间
-    public List<String> orderedRooms(@Param("startTime") LocalDateTime startTime,
-                                     @Param("endTime") LocalDateTime endTime);
 }

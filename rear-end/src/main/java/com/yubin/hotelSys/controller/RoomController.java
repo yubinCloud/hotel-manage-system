@@ -24,6 +24,10 @@ public class RoomController {
     @Autowired
     private RoomMapper roomMapper;
 
+    /**
+     * 展示所有房间的信息
+     * @return 响应数据
+     */
     @RequestMapping(value = "/show_all")
     public Object showAllRoom() {
         var queryRet = roomMapper.showAllRoom();
@@ -40,14 +44,5 @@ public class RoomController {
             result.add(roomDict);
         }
         return new ResponseData(ExceptionMsg.SUCCESS, result);
-    }
-
-    @RequestMapping(value = "/day_reserve", method = RequestMethod.GET)
-    public Object orderedRoomsOfDay(@RequestParam("year") int year,
-                                    @RequestParam("month") int month,
-                                    @RequestParam("day") int day) {
-        LocalDateTime startTime = LocalDateTime.of(year, month, day, 12, 0);
-        LocalDateTime endTime = startTime.plusDays(1);
-        return new ResponseData(ExceptionMsg.SUCCESS, roomMapper.orderedRooms(startTime, endTime));
     }
 }
