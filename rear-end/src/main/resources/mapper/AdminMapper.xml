@@ -23,4 +23,10 @@
         VALUES (#{id}, #{name}, #{pwd}, #{roleId});
     </insert>
 
+    <select id="findAdminByAccount" resultType="com.yubin.hotelSys.model.Admin">
+        SELECT *
+        FROM hotel.admin
+        WHERE id = #{account};
+    </select>
+
 </mapper>

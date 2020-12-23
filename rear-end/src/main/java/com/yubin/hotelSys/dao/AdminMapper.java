@@ -15,4 +15,7 @@ public interface AdminMapper {
     // 插入一个管理员
     public void insertAdmin(@Param("id") String id, @Param("name") String name,
                             @Param("pwd") String pwd, @Param("roleId") int roleId);
+
+    // 根据账号来查找一个管理员
+    public Admin findAdminByAccount(@Param("account") String account);
 }

@@ -54,7 +54,7 @@ public class AdminController {
         if (findRet == null)
             return new ResponseData(ExceptionMsg.SUCCESS, "login fail");
         var session = request.getSession();
-        session.setAttribute("account", md5Hash(pwd));
+        session.setAttribute("account", account);
         return new ResponseData(ExceptionMsg.SUCCESS, "success");
     }
 

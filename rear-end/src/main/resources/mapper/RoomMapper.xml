@@ -21,5 +21,11 @@
         LEFT JOIN hotel.roomType rt ON r.type_id = rt.id;
     </select>
 
+    <update id="modifyTypeOfOneRoom">
+        UPDATE hotel.room
+        SET type_id = ${typeId}
+        WHERE id = #{roomId};
+    </update>
+
 
 </mapper>

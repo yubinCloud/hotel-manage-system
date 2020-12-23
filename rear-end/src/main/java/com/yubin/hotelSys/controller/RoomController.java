@@ -1,16 +1,16 @@
 package com.yubin.hotelSys.controller;
 
+import com.yubin.hotelSys.dao.AdminMapper;
 import com.yubin.hotelSys.dao.RoomMapper;
+import com.yubin.hotelSys.model.Admin;
 import com.yubin.hotelSys.model.Room;
 import com.yubin.hotelSys.model.RoomType;
 import com.yubin.hotelSys.result.ExceptionMsg;
 import com.yubin.hotelSys.result.ResponseData;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -23,6 +23,9 @@ public class RoomController {
 
     @Autowired
     private RoomMapper roomMapper;
+
+    @Autowired
+    private AdminMapper adminMapper;
 
     /**
      * 展示所有房间的信息
@@ -44,5 +47,19 @@ public class RoomController {
             result.add(roomDict);
         }
         return new ResponseData(ExceptionMsg.SUCCESS, result);
+    }
+
+    @RequestMapping(value = "/set_type", method = RequestMethod.POST)
+    public Object modifyRoomType(HttpServletRequest request, @RequestBody Map<String, Object> json) {
+        var session = request.getSession();
+        String revAccount = (String) session.getAttribute("account");
+        Admin admin = adminMapper.findAdminByAccount(revAccount);
+        if (admin == null) {
+            return new ResponseData(ExceptionMsg.FAILED, "被拒绝");
+        }
+        int typeId = (Integer) json.get("typeId");
+        String roomId = (String) json.get("roomId");
+        roomMapper.modifyTypeOfOneRoom(roomId, typeId);
+        return new ResponseData(ExceptionMsg.SUCCESS, "success");
     }
 }
