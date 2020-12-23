@@ -41,4 +41,10 @@
         FROM hotel.`order` as od
         WHERE check_in_time > #{startTime} AND check_in_time &lt;= #{endTime};
     </select>
+
+    <update id="checkout">
+        UPDATE hotel.`order`
+        SET check_out_time = NOW()
+        WHERE id = #{orderId, jdbcType=BIGINT};
+    </update>
 </mapper>

@@ -23,4 +23,7 @@ public interface OrderMapper {
     // 计算某一段时间的总营收
     public double computeProfits(@Param("startTime") LocalDateTime startTime,
                                @Param("endTime") LocalDateTime endTime);
+
+    // 登记离开
+    public void checkout(@Param("orderId") long orderId);
 }

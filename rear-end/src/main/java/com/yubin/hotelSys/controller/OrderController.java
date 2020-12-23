@@ -6,12 +6,10 @@ import com.yubin.hotelSys.model.Order;
 import com.yubin.hotelSys.result.ExceptionMsg;
 import com.yubin.hotelSys.result.ResponseData;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/order")
@@ -81,6 +79,13 @@ public class OrderController {
         LocalDateTime startTime = LocalDateTime.of(year, 1, 1, 12, 0);
         LocalDateTime endTime = startTime.plusYears(1);
         return new ResponseData(ExceptionMsg.SUCCESS, orderMapper.computeProfits(startTime, endTime));
+    }
+
+    @RequestMapping(value = "/checkout", method = RequestMethod.POST)
+    public Object checkout(@RequestBody Map<String, Object> json) {
+        long orderId = Long.valueOf((Integer) json.get("orderId"));
+        orderMapper.checkout(orderId);
+        return new ResponseData(ExceptionMsg.SUCCESS, "success");
     }
 
 }
