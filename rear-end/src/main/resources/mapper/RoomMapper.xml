@@ -27,5 +27,10 @@
         WHERE id = #{roomId};
     </update>
 
+    <insert id="addRoom">
+        INSERT INTO hotel.room
+        VALUES (#{roomId}, #{name}, ${typeId}, ${floor}, #{description});
+    </insert>
+
 
 </mapper>

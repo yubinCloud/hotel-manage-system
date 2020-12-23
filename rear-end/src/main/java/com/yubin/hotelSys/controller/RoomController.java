@@ -62,4 +62,16 @@ public class RoomController {
         roomMapper.modifyTypeOfOneRoom(roomId, typeId);
         return new ResponseData(ExceptionMsg.SUCCESS, "success");
     }
+
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public Object addRoom(@RequestBody Map<String, Object> json) {
+        String roomId = (String) json.get("roomId");
+        String roomName = (String) json.getOrDefault("name", "");
+        int typeId = (Integer) json.getOrDefault("typeId", 1);
+        int floor = (Integer) json.get("floor");
+        String desc = (String) json.getOrDefault("desc", "");
+        roomMapper.addRoom(roomId, roomName, typeId, floor, desc);
+
+        return new ResponseData(ExceptionMsg.SUCCESS, "success");
+    }
 }

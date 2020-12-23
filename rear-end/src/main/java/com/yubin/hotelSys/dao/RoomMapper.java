@@ -18,4 +18,9 @@ public interface RoomMapper {
 
     // 修改某个房间的房型
     public void modifyTypeOfOneRoom(@Param("roomId") String roomId, @Param("typeId") int typeId);
+
+    // 增加一个房间
+    public void addRoom(@Param("roomId") String roomId, @Param("name") String name,
+                        @Param("typeId") int typeId, @Param("floor") int floor,
+                        @Param("description") String description);
 }
