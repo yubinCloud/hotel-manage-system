@@ -10,7 +10,7 @@ spring:
     name: hotelSystem
 
 server:
-  port: 8080
+  port: 8085
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
