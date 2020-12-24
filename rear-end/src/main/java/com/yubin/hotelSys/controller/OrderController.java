@@ -87,5 +87,15 @@ public class OrderController {
         orderMapper.checkout(orderId);
         return new ResponseData(ExceptionMsg.SUCCESS, "success");
     }
+    @RequestMapping(value = "/checkin", method = RequestMethod.POST)
+    public Object checkin(@RequestBody Map<String, Object> json) {
+        String roomId = (String) json.get("roomId");
+        String guestId = (String) json.get("guestId");
+        String group = (String) json.get("group");
+        double discountRatio = (Double) json.getOrDefault("discountRatio", 1.0);
+
+        orderMapper.checkin(roomId, guestId, group, discountRatio);
+        return new ResponseData(ExceptionMsg.SUCCESS, "success");
+    }
 
 }

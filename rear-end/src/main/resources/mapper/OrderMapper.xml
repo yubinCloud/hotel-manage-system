@@ -47,4 +47,16 @@
         SET check_out_time = NOW()
         WHERE id = #{orderId, jdbcType=BIGINT};
     </update>
+
+    <insert id="checkin">
+        INSERT INTO hotel.`order`
+        (room_id, guest_id, check_in_time, `group`, real_pay)
+        SELECT #{roomId}, #{guestId}, NOW(), #{group}, rt.std_price * #{discountRatio, jdbcType=DOUBLE}
+        FROM hotel.RoomType AS rt
+        WHERE rt.id = (
+            SELECT r.type_id
+            FROM hotel.Room r
+            WHERE r.id = #{roomId}
+        );
+    </insert>
 </mapper>

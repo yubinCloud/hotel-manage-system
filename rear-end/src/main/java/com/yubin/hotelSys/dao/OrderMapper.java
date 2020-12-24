@@ -26,4 +26,8 @@ public interface OrderMapper {
 
     // 登记离开
     public void checkout(@Param("orderId") long orderId);
+
+    // 登记入住
+    public void checkin(@Param("roomId") String roomId, @Param("guestId") String guestId,
+                        @Param("group") String group, @Param("discountRatio") double discountRatio);
 }
