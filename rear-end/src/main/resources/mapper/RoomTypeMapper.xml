@@ -6,4 +6,9 @@
       SET std_price = #{price, jdbcType=DOUBLE}
       WHERE id = #{typeId, jdbcType=INTEGER};
   </update>
+
+    <select id="queryAllRoomType" resultType="com.yubin.hotelSys.model.RoomType">
+        SELECT *
+        FROM hotel.RoomType;
+    </select>
 </mapper>

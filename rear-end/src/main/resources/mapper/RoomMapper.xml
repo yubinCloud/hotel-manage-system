@@ -13,12 +13,18 @@
             <result property="name" column="tname" />
             <result property="stdPrice" column="std_price" />
         </association>
+
+        <association property="bedType" javaType="com.yubin.hotelSys.model.BedType">
+            <id property="id" column="bid" />
+            <result property="bedName" column="bed_name" />
+        </association>
     </resultMap>
     
     <select id="showAllRoom" resultMap="roomMap">
-        SELECT r.id rid, r.name rname, floor, r.`desc` rdesc, rt.id tid, rt.name tname, std_price
+        SELECT r.id rid, r.name rname, floor, r.`desc` rdesc, bed_id, rt.id tid, rt.name tname, std_price, b.id bid, bed_name
         FROM hotel.Room AS r
-        LEFT JOIN hotel.roomType rt ON r.type_id = rt.id;
+        LEFT JOIN hotel.RoomType rt ON r.type_id = rt.id
+        LEFT JOIN hotel.BedType b ON r.bed_id = b.id;
     </select>
 
     <update id="modifyTypeOfOneRoom">

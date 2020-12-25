@@ -12,13 +12,18 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/room_type")
+@RequestMapping("/api/roomType")
 public class RoomTypeController {
 
     @Autowired
     private RoomTypeMapper roomTypeMapper;
 
-    @RequestMapping(value = "/set_price", method = RequestMethod.POST)
+    @RequestMapping(value = "/allType", method = RequestMethod.GET)
+    public Object queryAllRoomType() {
+        return new ResponseData(ExceptionMsg.SUCCESS, roomTypeMapper.queryAllRoomType());
+    }
+
+    @RequestMapping(value = "/setPrice", method = RequestMethod.POST)
     public Object modifyStdPrice(@RequestBody Map<String, Object> json) {
         int typeId = (Integer) json.get("id");
         double price = (Double) json.get("price");

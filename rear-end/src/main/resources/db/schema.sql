@@ -4,6 +4,7 @@ CREATE TABLE IF NOT EXISTS `Room` (
     `type_id` int NOT NULL ,
     `floor` int NOT NULL ,
     `desc` TEXT NOT NULL ,
+    `bed_id` INTEGER,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8;
 
@@ -12,6 +13,13 @@ CREATE TABLE IF NOT EXISTS `RoomType` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(255) NOT NULL ,
     `std_price` DOUBLE NOT NULL ,
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8;
+
+
+CREATE TABLE IF NOT EXISTS `BedType` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `bed_name` VARCHAR(255) NOT NULL ,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8;
 
@@ -53,3 +61,5 @@ CREATE TABLE IF NOT EXISTS `AdminRole` (
     `name` VARCHAR(255) NOT NULL ,
     `grade` INTEGER NOT NULL
 )
+
+

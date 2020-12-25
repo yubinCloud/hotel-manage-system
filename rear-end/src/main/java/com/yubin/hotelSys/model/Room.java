@@ -6,8 +6,10 @@ public class Room {
     private int typeId;
     private int floor;
     private String desc;
+    private int bedId;
 
     private RoomType roomType;
+    private BedType bedType;
 
     public String getId() {
         return id;
@@ -47,5 +49,29 @@ public class Room {
 
     public void setRoomType(RoomType roomType) {
         this.roomType = roomType;
+    }
+
+    public int getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(int typeId) {
+        this.typeId = typeId;
+    }
+
+    public int getBedId() {
+        return bedId;
+    }
+
+    public void setBedId(int bedId) {
+        this.bedId = bedId;
+    }
+
+    public BedType getBedType() {
+        return bedType;
+    }
+
+    public void setBedType(BedType bedType) {
+        this.bedType = bedType;
     }
 }

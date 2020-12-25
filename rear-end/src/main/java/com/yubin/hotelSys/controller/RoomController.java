@@ -46,7 +46,7 @@ public class RoomController {
             roomDict.put("stdPrice", roomType.getStdPrice());
             result.add(roomDict);
         }
-        return new ResponseData(ExceptionMsg.SUCCESS, result);
+        return new ResponseData(ExceptionMsg.SUCCESS, queryRet);
     }
 
     @RequestMapping(value = "/set_type", method = RequestMethod.POST)
