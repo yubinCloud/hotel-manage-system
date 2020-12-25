@@ -43,6 +43,7 @@ CREATE TABLE IF NOT EXISTS `Admin` (
     `name` VARCHAR(255) NOT NULL,
     `pwd` VARCHAR(255) NOT NULL ,
     `role_id` INTEGER NOT NULL ,
+    `tel_phone` VARCHAR(255),
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8;
 

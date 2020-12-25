@@ -23,10 +23,10 @@
         VALUES (#{id}, #{name}, #{pwd}, #{roleId});
     </insert>
 
-    <select id="findAdminByAccount" resultType="com.yubin.hotelSys.model.Admin">
-        SELECT *
-        FROM hotel.admin
-        WHERE id = #{account};
+    <select id="findAdminByAccount" resultMap="adminMap">
+        SELECT a.id aid, a.name aname, pwd, role_id, tel_phone, ar.id, ar.name arname, grade
+        FROM hotel.admin a LEFT JOIN hotel.AdminRole ar on a.role_id = ar.id
+        WHERE a.id = #{account};
     </select>
 
 </mapper>

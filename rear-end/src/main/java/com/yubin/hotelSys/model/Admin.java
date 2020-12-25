@@ -8,8 +8,18 @@ public class Admin {
     private String name;
     private String pwd;
     private int roleId;
+    private String telPhone;
 
     private AdminRole role;
+
+
+    public String getTelPhone() {
+        return telPhone;
+    }
+
+    public void setTelPhone(String telPhone) {
+        this.telPhone = telPhone;
+    }
 
     public String getId() {
         return id;

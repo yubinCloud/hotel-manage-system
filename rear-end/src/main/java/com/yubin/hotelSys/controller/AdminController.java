@@ -16,7 +16,7 @@ import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "*",maxAge = 3600)
-@RequestMapping("/admin")
+@RequestMapping("/api/admin")
 public class AdminController {
 
     /**
@@ -54,6 +54,25 @@ public class AdminController {
         var session = request.getSession();
         session.setAttribute("account", account);
         return new ResponseData(ExceptionMsg.SUCCESS, "success");
+    }
+
+    @RequestMapping(value = "/adminInfo", method = RequestMethod.GET)
+    public Object getAdmin(HttpServletRequest request) {
+        var session = request.getSession();
+
+        String account = null;
+        try {
+            account = (String) session.getAttribute("account");
+        } catch (IllegalStateException e) {
+            return new ResponseData(ExceptionMsg.FAILED, "Session状态错误");
+        }
+
+        if (account == null) {
+            return new ResponseData(ExceptionMsg.FAILED, "Session中找不到account信息");
+        }
+
+        var admin = adminMapper.findAdminByAccount(account);
+        return new ResponseData(ExceptionMsg.SUCCESS, admin);
     }
 
 }
