@@ -203,7 +203,7 @@ export default {
             })
         },
         getAllRoomTypeList() {
-            getRoomTypeList().then(resp => {
+            getRoomTypeList(null).then(resp => {
                 if (resp['data']['code'] === 0) {
                     this.roomTypeList = resp['data']['data'];
                 }
