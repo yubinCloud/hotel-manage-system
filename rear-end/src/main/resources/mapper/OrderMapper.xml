@@ -29,6 +29,13 @@
         WHERE check_in_time > #{startTime} AND check_in_time &lt;= #{endTime}
     </select>
 
+    <select id="aggregateMonthTurnover" resultType="com.yubin.hotelSys.model.MonthTurnover">
+        SELECT DATE_FORMAT(check_in_time, '%Y-%m') month, COUNT(*) orderCount, SUM(real_pay) money
+        FROM hotel.`order`
+        WHERE check_in_time > #{startTime} AND check_in_time &lt;= #{endTime}
+        GROUP BY DATE_FORMAT(check_in_time, '%Y-%m');
+    </select>
+
     <select id="selectOrder" resultMap="orderMap">
         SELECT od.id oid, room_id, guest_id, check_in_time, check_out_time, real_pay, od.`group` gp, r.id rid, r.name rname, type_id, floor, `desc` rdesc, id_num, g.name gname, phone, sex, age
         FROM hotel.`order` od

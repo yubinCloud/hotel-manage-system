@@ -1,5 +1,6 @@
 package com.yubin.hotelSys.dao;
 
+import com.yubin.hotelSys.model.MonthTurnover;
 import com.yubin.hotelSys.model.Order;
 import com.yubin.hotelSys.model.SimplifyOrder;
 import org.apache.ibatis.annotations.Mapper;
@@ -17,6 +18,10 @@ public interface OrderMapper {
     public List<Order> selectOrder(@Param("roomId") String roomId,
                              @Param("startTime") LocalDateTime startTime,
                              @Param("endTime") LocalDateTime endTime);
+
+    // 统计交易金额
+    public List<MonthTurnover> aggregateMonthTurnover(@Param("startTime") LocalDateTime startTime,
+                                                      @Param("endTime") LocalDateTime endTime);
 
     // 根据订单的id来获得订单的详细信息
     public Order selectOrderById(@Param("orderId") long orderId);

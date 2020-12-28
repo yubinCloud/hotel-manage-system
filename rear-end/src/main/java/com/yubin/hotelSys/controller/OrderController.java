@@ -3,13 +3,15 @@ package com.yubin.hotelSys.controller;
 
 import com.yubin.hotelSys.dao.OrderMapper;
 import com.yubin.hotelSys.dto.OrderSearchFormDTO;
+import com.yubin.hotelSys.model.MonthTurnover;
 import com.yubin.hotelSys.result.ExceptionMsg;
 import com.yubin.hotelSys.result.ResponseData;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/order")
@@ -31,6 +33,30 @@ public class OrderController {
         var selectResult = orderMapper.selectOrder(roomId, startTime, endTime);
         return new ResponseData(ExceptionMsg.SUCCESS, selectResult);
     }
+
+    @RequestMapping(value = "/turnover")
+    public Object aggregateTurnover(@RequestParam(value = "startTime") String startTimeStr,
+                                    @RequestParam(value = "endTime") String endTimeStr) {
+        LocalDateTime startTime, endTime;
+        try {
+            startTime = timeStrToDateTime(startTimeStr);
+            endTime = timeStrToDateTime(endTimeStr);
+        } catch (NumberFormatException e) {
+            return new ResponseData(ExceptionMsg.FAILED, "datetime str format is error.");
+        }
+        List<MonthTurnover> monthTurnoverList = orderMapper.aggregateMonthTurnover(startTime, endTime);
+        monthTurnoverList.sort(Comparator.comparing(MonthTurnover::getMonth));
+        double money = monthTurnoverList.stream().mapToDouble(MonthTurnover::getMoney).sum();
+        int orderCount = monthTurnoverList.stream().mapToInt(MonthTurnover::getOrderCount).sum();
+        Map<String, Object> result = new HashMap<>();
+        result.put("money", money);
+        result.put("orderCount", orderCount);
+        result.put("statList", monthTurnoverList);
+
+        return new ResponseData(ExceptionMsg.SUCCESS, result);
+    }
+
+
 
     /**
      * 查询某一天内预定的房间
