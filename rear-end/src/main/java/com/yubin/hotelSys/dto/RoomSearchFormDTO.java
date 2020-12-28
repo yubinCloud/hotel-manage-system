@@ -3,7 +3,7 @@ package com.yubin.hotelSys.dto;
 import lombok.Data;
 
 @Data
-public class RoomSearchForm {
+public class RoomSearchFormDTO {
     private String roomId;
     private Integer peopleNum;
     private Integer roomTypeId;

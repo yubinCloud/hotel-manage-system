@@ -28,7 +28,7 @@
         LEFT JOIN hotel.BedType b ON r.bed_id = b.id;
     </select>
 
-    <select id="selectRoom" parameterType="com.yubin.hotelSys.dto.RoomSearchForm" resultMap="roomMap">
+    <select id="selectRoom" parameterType="com.yubin.hotelSys.dto.RoomSearchFormDTO" resultMap="roomMap">
         SELECT r.id rid, r.name rname, floor, r.`desc` rdesc, bed_id, status,
                rt.id tid, rt.name tname, std_price, people_num, area,
                b.id bid, bed_name
@@ -70,9 +70,10 @@
         WHERE id = #{roomId};
     </update>
 
-    <insert id="addRoom">
+    <insert id="addRoom" parameterType="com.yubin.hotelSys.dto.NewRoomDTO">
         INSERT INTO hotel.room
-        VALUES (#{roomId}, #{name}, ${typeId}, ${floor}, #{description});
+        VALUES (#{roomId}, #{roomName}, #{roomTypeId, jdbcType=INTEGER}, #{floor, jdbcType=INTEGER},
+                #{desc}, #{bedTypeId}, #{status, jdbcType=INTEGER});
     </insert>
 
 

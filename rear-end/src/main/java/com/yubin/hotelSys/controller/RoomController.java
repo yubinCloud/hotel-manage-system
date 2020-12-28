@@ -2,19 +2,16 @@ package com.yubin.hotelSys.controller;
 
 import com.yubin.hotelSys.dao.AdminMapper;
 import com.yubin.hotelSys.dao.RoomMapper;
-import com.yubin.hotelSys.dto.RoomSearchForm;
+import com.yubin.hotelSys.dto.NewRoomDTO;
+import com.yubin.hotelSys.dto.RoomSearchFormDTO;
 import com.yubin.hotelSys.model.Admin;
 import com.yubin.hotelSys.model.Room;
-import com.yubin.hotelSys.model.RoomType;
 import com.yubin.hotelSys.result.ExceptionMsg;
 import com.yubin.hotelSys.result.ResponseData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -39,9 +36,9 @@ public class RoomController {
     }
 
     @RequestMapping(value = "/selectRoom")
-    public Object selectRoom(RoomSearchForm roomSearchForm) {
-        System.out.println(roomSearchForm);
-        List<Room> selectResult = roomMapper.selectRoom(roomSearchForm);
+    public Object selectRoom(RoomSearchFormDTO roomSearchFormDTO) {
+        System.out.println(roomSearchFormDTO);
+        List<Room> selectResult = roomMapper.selectRoom(roomSearchFormDTO);
         return new ResponseData(ExceptionMsg.SUCCESS, selectResult);
     }
 
@@ -59,15 +56,10 @@ public class RoomController {
         return new ResponseData(ExceptionMsg.SUCCESS, "success");
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public Object addRoom(@RequestBody Map<String, Object> json) {
-        String roomId = (String) json.get("roomId");
-        String roomName = (String) json.getOrDefault("name", "");
-        int typeId = (Integer) json.getOrDefault("typeId", 1);
-        int floor = (Integer) json.get("floor");
-        String desc = (String) json.getOrDefault("desc", "");
-        roomMapper.addRoom(roomId, roomName, typeId, floor, desc);
 
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public Object addRoom(@RequestBody NewRoomDTO newRoom) {
+        roomMapper.addRoom(newRoom);
         return new ResponseData(ExceptionMsg.SUCCESS, "success");
     }
 }
