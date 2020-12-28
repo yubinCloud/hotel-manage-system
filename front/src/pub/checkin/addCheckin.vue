@@ -103,7 +103,7 @@ export default {
   },
   data () {
     const cheackCard = (rule, value, callback) => {
-      if (/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/.test(value) == false) {
+      if (/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/.test(value) === false) {
         callback(new Error("你的身份证格式不正确"));
       } else {
         // callback();
@@ -171,7 +171,7 @@ export default {
     },
     getroomList() {
       getroomList({state: '空闲'}).then(res => {
-        if(res.data.code == 0) {
+        if(res.data.code === 0) {
           this.firstRoomList = res.data.data
           this.handleRoom(res.data.data)
         }

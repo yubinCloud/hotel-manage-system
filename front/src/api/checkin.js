@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 // 查询入住列表
-export const getCheckinList = params => { return request({ url: '/HotelManagement/json/checkin/list', method: 'get', params: params }) }
+export const getCheckinList = params => { return request({ url: 'api/order/selectOrder', method: 'get', params: params }) }
 
 // 新增入住列表
 export const addCheckin = (params,headers) => { return request({ url: '/HotelManagement/json/checkin/add', method: 'post', data: params, headers: headers }) }
