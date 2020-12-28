@@ -21,7 +21,8 @@
             <result property="name" column="gname" />
         </association>
     </resultMap>
-    
+
+
     <select id="orderedRooms" resultMap="simplifyOrderMap">
         SELECT od.id oid, od.room_id rid
         FROM hotel.order od
@@ -29,6 +30,24 @@
     </select>
 
     <select id="selectOrder" resultMap="orderMap">
+        SELECT od.id oid, room_id, guest_id, check_in_time, check_out_time, real_pay, od.`group` gp, r.id rid, r.name rname, type_id, floor, `desc` rdesc, id_num, g.name gname, phone, sex, age
+        FROM hotel.`order` od
+        LEFT JOIN hotel.room r ON r.id = od.room_id
+        LEFT JOIN hotel.guest g ON g.id_num = od.guest_id
+        <where>
+            <if test="roomId != null">
+                od.room_id LIKE #{roomId}
+            </if>
+            <if test="startTime != null">
+                AND check_in_time > #{startTime}
+            </if>
+            <if test="endTime != null">
+                AND check_in_time &lt;= #{endTime}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectOrderById" resultMap="orderMap">
         SELECT od.id oid, room_id, guest_id, check_in_time, check_out_time, real_pay, od.`group` gp, r.id rid, r.name rname, type_id, floor, `desc` rdesc, id_num, g.name gname, phone, sex, age
         FROM hotel.`order` od
         LEFT JOIN hotel.room r ON r.id = od.room_id

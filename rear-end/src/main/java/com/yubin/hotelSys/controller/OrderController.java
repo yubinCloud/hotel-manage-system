@@ -2,7 +2,7 @@ package com.yubin.hotelSys.controller;
 
 
 import com.yubin.hotelSys.dao.OrderMapper;
-import com.yubin.hotelSys.model.Order;
+import com.yubin.hotelSys.dto.OrderSearchFormDTO;
 import com.yubin.hotelSys.result.ExceptionMsg;
 import com.yubin.hotelSys.result.ResponseData;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +12,28 @@ import java.time.LocalDateTime;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/order")
+@RequestMapping("/api/order")
 public class OrderController {
     @Autowired
     private OrderMapper orderMapper;
 
     /**
-     * 查询某一段时间预定的房间
+     * 查询某一个时间段所预定的房间
+     */
+    @RequestMapping(value = "/selectOrder")
+    public Object selectOrders(OrderSearchFormDTO orderSearchFormDTO) {
+        var startTime = timeStrToDateTime(orderSearchFormDTO.getStartTime());
+        var endTime = timeStrToDateTime(orderSearchFormDTO.getEndTime());
+        String roomId = orderSearchFormDTO.getRoomId();
+        if (roomId != null) {
+            roomId = '%' + roomId + '%';
+        }
+        var selectResult = orderMapper.selectOrder(roomId, startTime, endTime);
+        return new ResponseData(ExceptionMsg.SUCCESS, selectResult);
+    }
+
+    /**
+     * 查询某一天内预定的房间
      * @param year 年
      * @param month 月
      * @param day 日
@@ -40,7 +55,7 @@ public class OrderController {
      */
     @RequestMapping(value = "/select", method = RequestMethod.GET)
     public Object selectOrder(@RequestParam("oid") long orderId) {
-        var result = orderMapper.selectOrder(orderId);
+        var result = orderMapper.selectOrderById(orderId);
         return new ResponseData(ExceptionMsg.SUCCESS, result);
     }
 
@@ -96,6 +111,21 @@ public class OrderController {
 
         orderMapper.checkin(roomId, guestId, group, discountRatio);
         return new ResponseData(ExceptionMsg.SUCCESS, "success");
+    }
+
+    /**
+     * 将前端传来的时间字符串转换成 LocalDateTime 类型
+     * @param timeStr 前端传来的时间字符串
+     * @return 转换后的 LocalDateTime 对象
+     */
+    private LocalDateTime timeStrToDateTime(String timeStr) {
+        if (timeStr == null)
+            return null;
+        String[] sec = timeStr.split("-");
+        int year = Integer.parseInt(sec[0]);
+        int month = Integer.parseInt(sec[1]);
+        int day = Integer.parseInt(sec[2]);
+        return LocalDateTime.of(year, month, day, 12, 0);
     }
 
 }

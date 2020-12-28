@@ -13,8 +13,13 @@ import java.util.List;
 @Repository
 public interface OrderMapper {
 
+    // 根据条件来选择查询订单
+    public List<Order> selectOrder(@Param("roomId") String roomId,
+                             @Param("startTime") LocalDateTime startTime,
+                             @Param("endTime") LocalDateTime endTime);
+
     // 根据订单的id来获得订单的详细信息
-    public Order selectOrder(@Param("orderId") long orderId);
+    public Order selectOrderById(@Param("orderId") long orderId);
 
     // 查看某一段时间的已预订房间
     public List<SimplifyOrder> orderedRooms(@Param("startTime") LocalDateTime startTime,
