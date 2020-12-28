@@ -1,6 +1,7 @@
 package com.yubin.hotelSys.controller;
 
 import com.yubin.hotelSys.dao.RoomTypeMapper;
+import com.yubin.hotelSys.dto.RoomTypeSearchFormDTO;
 import com.yubin.hotelSys.result.ExceptionMsg;
 import com.yubin.hotelSys.result.ResponseData;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,16 @@ public class RoomTypeController {
     @RequestMapping(value = "/allType", method = RequestMethod.GET)
     public Object queryAllRoomType() {
         return new ResponseData(ExceptionMsg.SUCCESS, roomTypeMapper.queryAllRoomType());
+    }
+
+    @RequestMapping(value = "/selectRoomType")
+    public Object selectRoomType(RoomTypeSearchFormDTO roomTypeSearchFormDTO) {
+        roomTypeSearchFormDTO.setRoomTypeName(
+                '%' + roomTypeSearchFormDTO.getRoomTypeName() + '%'
+        );
+        System.out.println(roomTypeSearchFormDTO);
+        var selectResult = roomTypeMapper.selectRoomType(roomTypeSearchFormDTO);
+        return new ResponseData(ExceptionMsg.SUCCESS, selectResult);
     }
 
     @RequestMapping(value = "/setPrice", method = RequestMethod.POST)

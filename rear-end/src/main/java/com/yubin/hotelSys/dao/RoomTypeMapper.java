@@ -1,5 +1,6 @@
 package com.yubin.hotelSys.dao;
 
+import com.yubin.hotelSys.dto.RoomTypeSearchFormDTO;
 import com.yubin.hotelSys.model.RoomType;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -16,4 +17,7 @@ public interface RoomTypeMapper {
 
     // 查看一个房间的全部类型
     public List<RoomType> queryAllRoomType();
+
+    // 根据条件查询房间类型
+    public List<RoomType> selectRoomType(RoomTypeSearchFormDTO roomType);
 }

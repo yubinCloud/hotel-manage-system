@@ -11,4 +11,30 @@
         SELECT *
         FROM hotel.RoomType;
     </select>
+
+    <select id="selectRoomType" parameterType="com.yubin.hotelSys.dto.RoomTypeSearchFormDTO"
+            resultType="com.yubin.hotelSys.model.RoomType">
+        SELECT *
+        FROM hotel.RoomType
+        <where>
+            <if test="roomTypeName != null">
+                name LIKE #{roomTypeName}
+            </if>
+            <if test="peopleNum != null">
+                AND peopleNum = #{peopleNum, jdbcType=INTEGER}
+            </if>
+            <if test="minArea != null">
+                AND area >= #{minArea, jdbcType=DOUBLE}
+            </if>
+            <if test="maxArea != null">
+                AND #{maxArea, jdbcType=DOUBLE} >= area
+            </if>
+            <if test="minPrice != null">
+                AND std_price >= #{minPrice, jdbcType=DOUBLE}
+            </if>
+            <if test="maxPrice != null">
+                AND #{maxPrice, jdbcType=DOUBLE} >= std_price
+            </if>
+        </where>
+    </select>
 </mapper>
