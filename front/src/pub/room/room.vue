@@ -124,7 +124,7 @@
         </el-table>
 
 
-        <add-dialog ref="addDialog" title="新增" @confirmData="(item,fileList) => addroom(item,fileList)"/>
+        <add-dialog ref="addDialog" title="新增" @confirmData="(item) => addroom(item)"/>
         <update-dialog ref="updateDialog" title="修改" @confirmData="(item,fileList) => updateroom(item,fileList)"/>
         <page-component :total="page.totalSize" :page="page" @pageChange="(item)=>handlePageChange(item)"/>
     </div>
@@ -133,8 +133,7 @@
 <script>
 import AddDialog from './addroom'
 import updateDialog from './addroom'
-import axios from 'axios'
-import {getroomList, addroom, updateroom, delroom} from '@/api/room';
+import {getroomList, addRoom, updateroom, delroom} from '@/api/room';
 import {getRoomTypeList} from '@/api/roomtype'
 import {getBedTypeList} from '@/api/bedType'
 import PageComponent from '@/components/Pagenation/index'
@@ -210,31 +209,21 @@ export default {
                 }
             })
         },
-        addroom(item, fileList) {
-            let imgUrls = []
-            fileList.forEach((ele, idx) => {
-                imgUrls.push(ele.url)
-            })
-            // console.log('imgUrls', imgUrls)
-            item.imgUrls = imgUrls.join()
-            item.roomType = item.roomTypeName
-            delete item.imgList
-            delete item.roomTypeName
-            delete item.roomTypeId
-            // console.log('新增客房的canshu是', item)
-            addroom(item).then(res => {
-                // console.log('新增客房返回数据是', res)
-                if (res.data.code === 0) {
+        addroom(newRoom) {
+            // console.log('新增客房的是', item)
+            addRoom(newRoom).then(resp => {
+                // console.log('新增客房返回数据是', resp)
+                if (resp.data.code === 0) {
                     this.$message({
                         type: 'success',
                         message: '新增客房成功'
                     })
                     this.getroomList()
                 }
-                if (res.data.code === 5) {
+                if (resp.data.code === 5) {
                     this.$message({
                         type: 'info',
-                        message: res.data.data
+                        message: resp.data.data
                     })
                 }
             })
@@ -250,7 +239,7 @@ export default {
             // console.log('修改客房参数是', item)
             updateroom(item).then(res => {
                 // console.log('修改客房类型返回数据是', res)
-                if (res.data.code == 0) {
+                if (res.data.code === 0) {
                     this.$message({
                         type: 'success',
                         message: '修改客房详情成功'

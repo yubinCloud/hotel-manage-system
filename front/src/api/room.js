@@ -4,7 +4,7 @@ import request from '@/utils/request'
 export const getroomList = params => { return request({ url: 'api/room/selectRoom', method: 'get', params: params }) }
 
 // 新增客房列表
-export const addroom = params => { return request({ url: '/HotelManagement/json/room/add', method: 'post', params: params }) }
+export const addRoom = params => { return request({ url: 'api/room/add', method: 'post', data: params }) }
 
 // 根据ID查询客房列表
 export const getroomById = roomId => { return request({ url: '/HotelManagement/json/room/getRoomById?roomId=' + roomId, method: 'get', params: roomId }) }
