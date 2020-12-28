@@ -7,6 +7,7 @@ public class Room {
     private int floor;
     private String desc;
     private int bedId;
+    private String status;
 
     private RoomType roomType;
     private BedType bedType;
@@ -73,5 +74,13 @@ public class Room {
 
     public void setBedType(BedType bedType) {
         this.bedType = bedType;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

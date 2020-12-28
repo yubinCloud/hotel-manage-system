@@ -2,6 +2,7 @@ package com.yubin.hotelSys.controller;
 
 import com.yubin.hotelSys.dao.AdminMapper;
 import com.yubin.hotelSys.dao.RoomMapper;
+import com.yubin.hotelSys.dto.RoomSearchForm;
 import com.yubin.hotelSys.model.Admin;
 import com.yubin.hotelSys.model.Room;
 import com.yubin.hotelSys.model.RoomType;
@@ -18,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/room")
+@RequestMapping("/api/room")
 public class RoomController {
 
     @Autowired
@@ -34,19 +35,14 @@ public class RoomController {
     @RequestMapping(value = "/show_all")
     public Object showAllRoom() {
         var queryRet = roomMapper.showAllRoom();
-        List<Map<String, Object>> result = new LinkedList<>();
-        for (Room room: queryRet) {
-            Map<String, Object> roomDict = new HashMap<>();
-            roomDict.put("id", room.getId());
-            roomDict.put("name", room.getName());
-            roomDict.put("floor", room.getFloor());
-            roomDict.put("desc", room.getDesc());
-            RoomType roomType = room.getRoomType();
-            roomDict.put("typeName", roomType.getName());
-            roomDict.put("stdPrice", roomType.getStdPrice());
-            result.add(roomDict);
-        }
         return new ResponseData(ExceptionMsg.SUCCESS, queryRet);
+    }
+
+    @RequestMapping(value = "/selectRoom")
+    public Object selectRoom(RoomSearchForm roomSearchForm) {
+        System.out.println(roomSearchForm);
+        List<Room> selectResult = roomMapper.selectRoom(roomSearchForm);
+        return new ResponseData(ExceptionMsg.SUCCESS, selectResult);
     }
 
     @RequestMapping(value = "/set_type", method = RequestMethod.POST)

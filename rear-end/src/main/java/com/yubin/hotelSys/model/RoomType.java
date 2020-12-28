@@ -4,6 +4,8 @@ public class RoomType {
     private int id;
     private String name;
     private double stdPrice;
+    private int peopleNum;
+    private double area;
 
     public int getId() {
         return id;
@@ -27,5 +29,21 @@ public class RoomType {
 
     public void setStdPrice(double stdPrice) {
         this.stdPrice = stdPrice;
+    }
+
+    public int getPeopleNum() {
+        return peopleNum;
+    }
+
+    public void setPeopleNum(int peopleNum) {
+        this.peopleNum = peopleNum;
+    }
+
+    public double getArea() {
+        return area;
+    }
+
+    public void setArea(double area) {
+        this.area = area;
     }
 }
