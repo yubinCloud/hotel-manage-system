@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 // 查询客房列表
-export const getroomList = params => { return request({ url: '/HotelManagement/json/room/list', method: 'get', params: params }) }
+export const getroomList = params => { return request({ url: 'api/room/selectRoom', method: 'get', params: params }) }
 
 // 新增客房列表
 export const addroom = params => { return request({ url: '/HotelManagement/json/room/add', method: 'post', params: params }) }
