@@ -96,7 +96,6 @@ import UpdateRoom from './updateroom';
 import CheckOut from './checkout';
 import { getCheckinList, addCheckin, updateCheckin, updateRoom } from '@/api/checkin';
 import { addCheckout } from '@/api/checkout';
-import { getCategoryList } from '@/api/category';
 import PageComponent from '@/components/Pagenation/index';
 import { formateDate } from '@/utils/formateDate';
 
@@ -126,7 +125,6 @@ export default {
             createTimeRange: '',
             checkinList: [],
             checkinData: {},
-            bedTypeList: [],
             page: {
                 currentPage: 0, // 当前页，对应接口中的page
                 pageSize: 0, // 每页条数，对应接口中的limit
