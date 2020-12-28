@@ -29,7 +29,6 @@ public class RoomTypeController {
         roomTypeSearchFormDTO.setRoomTypeName(
                 '%' + roomTypeSearchFormDTO.getRoomTypeName() + '%'
         );
-        System.out.println(roomTypeSearchFormDTO);
         var selectResult = roomTypeMapper.selectRoomType(roomTypeSearchFormDTO);
         return new ResponseData(ExceptionMsg.SUCCESS, selectResult);
     }
