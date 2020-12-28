@@ -37,9 +37,11 @@ public class RoomController {
 
     @RequestMapping(value = "/selectRoom")
     public Object selectRoom(RoomSearchFormDTO roomSearchFormDTO) {
-        roomSearchFormDTO.setRoomId(
-                '%' + roomSearchFormDTO.getRoomId() + '%'
-        );
+        if (roomSearchFormDTO.getRoomId() != null) {
+            roomSearchFormDTO.setRoomId(
+                    '%' + roomSearchFormDTO.getRoomId() + '%'
+            );
+        }
         var selectResult = roomMapper.selectRoom(roomSearchFormDTO);
         return new ResponseData(ExceptionMsg.SUCCESS, selectResult);
     }

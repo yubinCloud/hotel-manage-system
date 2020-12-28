@@ -26,9 +26,11 @@ public class RoomTypeController {
 
     @RequestMapping(value = "/selectRoomType")
     public Object selectRoomType(RoomTypeSearchFormDTO roomTypeSearchFormDTO) {
-        roomTypeSearchFormDTO.setRoomTypeName(
-                '%' + roomTypeSearchFormDTO.getRoomTypeName() + '%'
-        );
+        if (roomTypeSearchFormDTO.getRoomTypeName() != null) {
+            roomTypeSearchFormDTO.setRoomTypeName(
+                    '%' + roomTypeSearchFormDTO.getRoomTypeName() + '%'
+            );
+        }
         var selectResult = roomTypeMapper.selectRoomType(roomTypeSearchFormDTO);
         return new ResponseData(ExceptionMsg.SUCCESS, selectResult);
     }
