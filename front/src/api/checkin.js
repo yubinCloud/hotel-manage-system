@@ -4,7 +4,7 @@ import request from '@/utils/request'
 export const getCheckinList = params => { return request({ url: 'api/order/selectOrder', method: 'get', params: params }) }
 
 // 新增入住列表
-export const addCheckin = (params,headers) => { return request({ url: '/HotelManagement/json/checkin/add', method: 'post', data: params, headers: headers }) }
+export const addCheckin = (params, headers) => { return request({ url: 'api/order/addCheckin', method: 'post', data: params, headers: headers }) }
 
 // 根据ID查询入住列表
 export const getCheckinById = CheckinId => { return request({ url: '/HotelManagement/json/checkin/getCheckinById?checkinId=' + CheckinId, method: 'get', params: CheckinId }) }

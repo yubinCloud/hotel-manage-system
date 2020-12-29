@@ -175,7 +175,7 @@ export default {
         handlePageChange(item) {
             // console.log(item);// currentPage=1  pageSize=30条
             const para = {page: item.currentPage, limit: item.pageSize};
-            this.getroomList(para);
+            this.getFreeRoomList(para);
         },
 
         getBedTypeList() {
@@ -218,7 +218,7 @@ export default {
                         type: 'success',
                         message: '新增客房成功'
                     })
-                    this.getroomList()
+                    this.getFreeRoomList()
                 }
                 if (resp.data.code === 5) {
                     this.$message({
@@ -244,7 +244,7 @@ export default {
                         type: 'success',
                         message: '修改客房详情成功'
                     })
-                    this.getroomList()
+                    this.getFreeRoomList()
                 }
             })
         },
@@ -261,7 +261,7 @@ export default {
                             type: 'success',
                             message: '删除成功'
                         })
-                        this.getroomList()
+                        this.getFreeRoomList()
                     }
                 })
             }).catch(() => {

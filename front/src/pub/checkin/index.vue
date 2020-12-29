@@ -79,7 +79,7 @@
                 </el-button>
             </template>
         </el-table>
-        <add-dialog ref="addDialog" title="新增入住" @confirmData="(item) => addcheckin(item)"/>
+        <add-dialog ref="addDialog" title="新增入住" @confirmData="(item) => addCheckinOrder(item)"/>
         <check-out ref="checkOut" title="调整房费" @confirmData="(item) => checkout(item)"/>
         <update-details ref="updateDetails" title="入住详情"/>
         <update-dialog ref="updateDialog" title="修改入住天数" @confirmData="(item) => updateCheckin(item)"/>
@@ -176,27 +176,12 @@ export default {
         mouseEnter(data) {
             this.checkinData = Object.assign({}, data);
         },
-        addcheckin(item) { // 新增的住客不止一个，可能有多个人，这种写法不行
-            console.log('新增入住通知的参数是', item);
-            let tenantsArr = item.moreNotifyObject;
-            let tenantsArrChild = {
-                'tenantIdCard': item.tenantIdCard,
-                'tenantName': item.tenantName,
-                'tenantSex': item.tenantSex,
-                'tenantTel': item.tenantTel
-            };
-            tenantsArr.push(tenantsArrChild);
-            const param = {
-                'checkinDay': Number(item.checkinDay),
-                'errorInfo': {},
-                'roomId': item.roomId,
-                'tenants': tenantsArr
-            };
-            console.log('param', param);
+        addCheckinOrder(params) { // 新增的住客不止一个，可能有多个人，这种写法不行
+            console.log('新增入住通知的参数是', params);
             const headers = { 'Content-type': 'application/json;charset=utf-8' };
-            addCheckin(JSON.stringify(param), headers).then(res => {
+            addCheckin(params, headers).then(res => {
                 // console.log('新增入住',res)
-                if (res.data.code == 5) {
+                if (res.data.code === 5) {
                     this.$message({
                         type: 'info',
                         message: res.data.data
