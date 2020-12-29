@@ -137,7 +137,7 @@ public class OrderController {
 
     @RequestMapping(value = "/checkout", method = RequestMethod.POST)
     public Object checkout(@RequestBody Map<String, Object> json) {
-        long orderId = Long.valueOf((Integer) json.get("orderId"));
+        long orderId = Long.parseLong((String) json.get("orderId"));
         orderMapper.checkout(orderId);
         return new ResponseData(ExceptionMsg.SUCCESS, "success");
     }

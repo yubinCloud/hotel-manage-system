@@ -72,6 +72,14 @@
         UPDATE hotel.`order`
         SET check_out_time = NOW()
         WHERE id = #{orderId, jdbcType=BIGINT};
+
+        UPDATE hotel.room r
+        SET r.status = ’空闲‘
+        WHERE r.id = (
+            SELECT o.room_id
+            FROM hotel.`order` o
+            WHERE o.id = #{orderId, jdbcType=BIGINT}
+            );
     </update>
 
     <insert id="addCheckin" parameterType="com.yubin.hotelSys.dto.NewCheckinDTO">
@@ -94,5 +102,9 @@
             phone = #{guestTel},
             sex = #{guestSex},
             age = #{age};
+
+        UPDATE hotel.room r
+        SET r.status = '在住'
+        WHERE r.id = #{roomId};
     </insert>
 </mapper>
