@@ -1,5 +1,6 @@
 package com.yubin.hotelSys.dao;
 
+import com.yubin.hotelSys.dto.NewCheckinDTO;
 import com.yubin.hotelSys.model.MonthTurnover;
 import com.yubin.hotelSys.model.Order;
 import com.yubin.hotelSys.model.SimplifyOrder;
@@ -38,6 +39,5 @@ public interface OrderMapper {
     public void checkout(@Param("orderId") long orderId);
 
     // 登记入住
-    public void checkin(@Param("roomId") String roomId, @Param("guestId") String guestId,
-                        @Param("group") String group, @Param("discountRatio") double discountRatio);
+    public void addCheckin(NewCheckinDTO newCheckinDTO);
 }

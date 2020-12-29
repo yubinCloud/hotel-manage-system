@@ -74,15 +74,25 @@
         WHERE id = #{orderId, jdbcType=BIGINT};
     </update>
 
-    <insert id="checkin">
+    <insert id="addCheckin" parameterType="com.yubin.hotelSys.dto.NewCheckinDTO">
         INSERT INTO hotel.`order`
-        (room_id, guest_id, check_in_time, `group`, real_pay)
-        SELECT #{roomId}, #{guestId}, NOW(), #{group}, rt.std_price * #{discountRatio, jdbcType=DOUBLE}
+        (room_id, guest_id, check_in_time, `group`, real_pay, useDays)
+        SELECT #{roomId}, #{guestId}, NOW(), #{group}, rt.std_price * #{discountRatio, jdbcType=DOUBLE}, #{useDays, jdbcType=INTEGER}
         FROM hotel.RoomType AS rt
         WHERE rt.id = (
             SELECT r.type_id
             FROM hotel.Room r
             WHERE r.id = #{roomId}
         );
+
+        INSERT INTO hotel.guest
+        (id_num, name, phone, sex, age)
+        VALUES
+        (#{guestId}, #{guestName}, #{guestTel}, #{guestSex}, #{age, jdbcType=INTEGER})
+        ON DUPLICATE KEY UPDATE
+            name = #{guestName},
+            phone = #{guestTel},
+            sex = #{guestSex},
+            age = #{age};
     </insert>
 </mapper>

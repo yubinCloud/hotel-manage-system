@@ -2,11 +2,11 @@ package com.yubin.hotelSys.controller;
 
 
 import com.yubin.hotelSys.dao.OrderMapper;
+import com.yubin.hotelSys.dto.NewCheckinDTO;
 import com.yubin.hotelSys.dto.OrderSearchFormDTO;
 import com.yubin.hotelSys.model.MonthTurnover;
 import com.yubin.hotelSys.result.ExceptionMsg;
 import com.yubin.hotelSys.result.ResponseData;
-import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -56,7 +56,18 @@ public class OrderController {
         return new ResponseData(ExceptionMsg.SUCCESS, result);
     }
 
-
+    /**
+     * 增加新的 checkin 订单
+     * @param newCheckinDTO 新订单的接收信息
+     */
+    @RequestMapping(value = "/addCheckin", method = RequestMethod.POST)
+    public Object addCheckinOrder(@RequestBody NewCheckinDTO newCheckinDTO) {
+        if (newCheckinDTO.getDiscountRatio() == null) {
+            newCheckinDTO.setDiscountRatio(1.0);
+        }
+        orderMapper.addCheckin(newCheckinDTO);
+        return new ResponseData(ExceptionMsg.SUCCESS, "success");
+    }
 
     /**
      * 查询某一天内预定的房间
@@ -73,6 +84,8 @@ public class OrderController {
         LocalDateTime endTime = startTime.plusDays(1);
         return new ResponseData(ExceptionMsg.SUCCESS, orderMapper.orderedRooms(startTime, endTime));
     }
+
+
 
     /**
      * 根据订单id来获取一个订单的详细信息
@@ -126,16 +139,6 @@ public class OrderController {
     public Object checkout(@RequestBody Map<String, Object> json) {
         long orderId = Long.valueOf((Integer) json.get("orderId"));
         orderMapper.checkout(orderId);
-        return new ResponseData(ExceptionMsg.SUCCESS, "success");
-    }
-    @RequestMapping(value = "/checkin", method = RequestMethod.POST)
-    public Object checkin(@RequestBody Map<String, Object> json) {
-        String roomId = (String) json.get("roomId");
-        String guestId = (String) json.get("guestId");
-        String group = (String) json.get("group");
-        double discountRatio = (Double) json.getOrDefault("discountRatio", 1.0);
-
-        orderMapper.checkin(roomId, guestId, group, discountRatio);
         return new ResponseData(ExceptionMsg.SUCCESS, "success");
     }
 

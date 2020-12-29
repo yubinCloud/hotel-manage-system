@@ -5,14 +5,12 @@ import com.yubin.hotelSys.dao.RoomMapper;
 import com.yubin.hotelSys.dto.NewRoomDTO;
 import com.yubin.hotelSys.dto.RoomSearchFormDTO;
 import com.yubin.hotelSys.model.Admin;
-import com.yubin.hotelSys.model.Room;
 import com.yubin.hotelSys.result.ExceptionMsg;
 import com.yubin.hotelSys.result.ResponseData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 import java.util.Map;
 
 @RestController
