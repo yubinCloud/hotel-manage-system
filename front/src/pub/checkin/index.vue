@@ -49,7 +49,8 @@
             <el-table-column label="入住时间" prop="checkInTime" />
             <el-table-column label="退房时间" prop="checkOutTime" />
             <el-table-column label="实际付款" prop="realPay" />
-            <template>
+            <el-table-column>
+                <template>
                 <el-button
                     type="text"
                     icon="el-icon-edit"
@@ -77,7 +78,8 @@
                     @click="$refs.checkOut.open()"
                 >退房
                 </el-button>
-            </template>
+                </template>
+            </el-table-column>
         </el-table>
         <add-dialog ref="addDialog" title="新增入住" @confirmData="(item) => addCheckinOrder(item)"/>
         <check-out ref="checkOut" title="调整房费" @confirmData="(item) => checkout(item)"/>
