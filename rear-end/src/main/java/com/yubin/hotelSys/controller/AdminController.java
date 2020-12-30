@@ -5,12 +5,10 @@ import com.yubin.hotelSys.dto.AdminSearchFormDTO;
 import com.yubin.hotelSys.model.Admin;
 import com.yubin.hotelSys.result.ExceptionMsg;
 import com.yubin.hotelSys.result.ResponseData;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
@@ -37,11 +35,6 @@ public class AdminController {
 
     @Autowired
     private AdminMapper adminMapper;
-
-    static private final String[] dbTableNames = {
-            "Admin", "AdminType", "BedType", "Guest", "Order", "Room", "RoomType", "User"
-    };
-
 
     @RequestMapping(value = "selectAdmin")
     public Object selectAdmin(AdminSearchFormDTO adminForm) {
@@ -73,7 +66,7 @@ public class AdminController {
     public Object getAdmin(HttpServletRequest request) {
         var session = request.getSession();
 
-        String account = null;
+        String account;
         try {
             account = (String) session.getAttribute("account");
         } catch (IllegalStateException e) {
@@ -88,32 +81,31 @@ public class AdminController {
         return new ResponseData(ExceptionMsg.SUCCESS, admin);
     }
 
-    @NotNull
-    private Object buildCmdAndRun(String backupCmdFormat) {
-        for (String dbTableName : dbTableNames) {
-            String backupCmd = String.format(backupCmdFormat, dbTableName, dbTableName);
-            try {
-                var process = Runtime.getRuntime().exec(backupCmd);
-            } catch (IOException e) {
-                return new ResponseData(ExceptionMsg.FAILED, "failed");
-            }
-        }
-        return new ResponseData(ExceptionMsg.SUCCESS, "success");
-    }
-
     /**
      * 对数据库进行备份
      */
     @RequestMapping(value = "/backup", method = RequestMethod.POST)
     public Object dbBackup() {
-        String backupCmdFormat = "mysqldump -u root -h 127.0.0.1 -p yubin3869 -P 3306 hotel %s > d:\\backup\\%s.sql";
-        return buildCmdAndRun(backupCmdFormat);
+        try {
+            Process process = Runtime.getRuntime().exec(
+                    "cmd /c mysqldump -u root --password=yubin3869 hotel > D:\\Backup\\hotel.sql");
+            process.waitFor();
+            return new ResponseData(ExceptionMsg.SUCCESS, "success");
+        } catch (Exception e) {
+            return new ResponseData(ExceptionMsg.FAILED, "failed");
+        }
     }
 
     @RequestMapping(value = "/recover", method = RequestMethod.POST)
     public Object dbRecover() {
-        String recoverCmdFormat = "mysql -u root -p 123456 -h 127.0.0.1 -P 3306 hotel < d:\\backup\\%s.sql";
-        return buildCmdAndRun(recoverCmdFormat);
+        try {
+            Process process = Runtime.getRuntime().exec(
+                    "cmd /c mysql -u root --password=yubin3869 hotel < D:\\Backup\\hotel.sql");
+            process.waitFor();
+            return new ResponseData(ExceptionMsg.SUCCESS, "success");
+        } catch (Exception e) {
+            return new ResponseData(ExceptionMsg.FAILED, "failed");
+        }
     }
 
 }
