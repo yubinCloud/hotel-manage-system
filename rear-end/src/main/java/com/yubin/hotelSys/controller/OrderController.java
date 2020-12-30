@@ -8,6 +8,7 @@ import com.yubin.hotelSys.model.MonthTurnover;
 import com.yubin.hotelSys.result.ExceptionMsg;
 import com.yubin.hotelSys.result.ResponseData;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.jetbrains.annotations.NotNull;
 
