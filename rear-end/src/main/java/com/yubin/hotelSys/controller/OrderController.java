@@ -9,6 +9,7 @@ import com.yubin.hotelSys.result.ExceptionMsg;
 import com.yubin.hotelSys.result.ResponseData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -23,7 +24,7 @@ public class OrderController {
      * 查询某一个时间段所预定的房间
      */
     @RequestMapping(value = "/selectOrder")
-    public Object selectOrders(OrderSearchFormDTO orderSearchFormDTO) {
+    public Object selectOrders(@NotNull OrderSearchFormDTO orderSearchFormDTO) {
         var startTime = timeStrToDateTime(orderSearchFormDTO.getStartTime());
         var endTime = timeStrToDateTime(orderSearchFormDTO.getEndTime());
         String roomId = orderSearchFormDTO.getRoomId();
