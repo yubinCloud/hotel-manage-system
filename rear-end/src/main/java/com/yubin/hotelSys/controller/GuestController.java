@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/guest")
+@RequestMapping("/api/guest")
 public class GuestController {
     @Autowired
     private GuestMapper guestMapper;
