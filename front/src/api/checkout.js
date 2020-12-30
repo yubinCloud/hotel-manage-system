@@ -7,4 +7,4 @@ export const getCheckoutList = params => { return request({ url: '/HotelManageme
 export const getCheckoutById = checkoutId => { return request({ url: '/HotelManagement/json/checkout/getCheckoutById?checkoutId=' + checkoutId, method: 'get', params: checkoutId }) }
 
 // 退房
-export const addCheckout = params => { return request({ url: '/HotelManagement/json/checkout/add', method: 'post', params: params }) }
+export const addCheckout = params => { return request({ url: 'api/order/checkout', method: 'post', data: params }) }

@@ -42,6 +42,7 @@
                     <span>{{ (page.currentPage - 1) * page.pageSize + scope.$index + 1 }}</span>
                 </template>
             </el-table-column>
+            <el-table-column label="订单号" prop="id" />
             <el-table-column label="房号" prop="roomId" />
             <el-table-column label="房间名" prop="room.name" />
             <el-table-column label="入住人" prop="guest.name" />
@@ -75,7 +76,7 @@
                     type="text"
                     icon="el-icon-edit"
                     class="red"
-                    @click="$refs.checkOut.open()"
+                    @click="$refs.checkOut.open(checkinData)"
                 >退房
                 </el-button>
                 </template>
@@ -236,22 +237,22 @@ export default {
                 this.getCheckinList();
             });
         },
-        checkout(item) {
+        checkout() {
             const param = {
-                checkinId: this.checkinData.checkinId,
-                money: item.money
+                orderId: this.checkinData.id
             };
-            addCheckout(param).then(res => {
-                console.log('退房的返回的数据是', res.data);
-                if (res.data.code == 0) {
+            addCheckout(param).then(resp => {
+                console.log('退房的返回的数据是', resp.data);
+                if (resp.data.code === 0) {
                     this.$message({
                         type: 'success',
                         message: '退房成功'
                     });
-                } else if (res.data.code == 5) {
+                    getCheckinList(null);
+                } else if (resp.data.code === 5) {
                     this.$message({
                         type: 'info',
-                        message: res.data.data
+                        message: resp.data.data
                     });
                 }
             });

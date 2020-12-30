@@ -3,11 +3,8 @@
         <el-dialog :title="title" :visible.sync="visible" top="8rem" :lock-scroll="false" :show-close="false"
                    :close-on-click-modal="false">
             <el-form ref="checkoutForm" :model="item" label-width="120px">
-                <el-form-item label="备注:">
-                    <strong>如果实际退房时间与预期退房时间出现偏差，可适当调整房费</strong>
-                </el-form-item>
-                <el-form-item label="房费：" prop="money">
-                    <el-input v-model="item.money" placeholder="请输入房费" clearable/>
+                <el-form-item label="Tip:">
+                    <p><strong>是否确认退房？</strong><br />如果实际退房时间与预期退房时间出现偏差，可适当调整房费</p>
                 </el-form-item>
             </el-form>
             <span slot="footer">
@@ -26,10 +23,7 @@ export default {
     },
     data() {
         return {
-            visible: false,
-            item: {
-                money: ''
-            }
+            visible: false
         };
     },
     methods: {
@@ -44,7 +38,7 @@ export default {
                 type: 'warning'
             }).then(() => {
                 // console.log('房费调整的数据是，', this.item)
-                this.$emit('confirmData', this.item);
+                this.$emit('confirmData');
                 this.resetForm('checkoutForm');
             });
         },
