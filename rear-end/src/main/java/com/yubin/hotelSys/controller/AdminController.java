@@ -1,9 +1,11 @@
 package com.yubin.hotelSys.controller;
 
 import com.yubin.hotelSys.dao.AdminMapper;
+import com.yubin.hotelSys.dto.AdminSearchFormDTO;
 import com.yubin.hotelSys.model.Admin;
 import com.yubin.hotelSys.result.ExceptionMsg;
 import com.yubin.hotelSys.result.ResponseData;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -36,10 +39,17 @@ public class AdminController {
     @Autowired
     private AdminMapper adminMapper;
 
+
+    @RequestMapping(value = "selectAdmin")
+    public Object selectAdmin(AdminSearchFormDTO adminForm) {
+        List<Admin> selectRet = adminMapper.selectAdmin(adminForm);
+        return new ResponseData(ExceptionMsg.SUCCESS, selectRet);
+    }
+
     @RequestMapping(value = "signup", method = RequestMethod.POST)
     public Object signup(@RequestBody Admin admin) {
         admin.setPwd( md5Hash( admin.getPwd() ) );
-        adminMapper.insertAdmin(admin.getId(), admin.getName(), admin.getPwd(), admin.getRoleId());
+        adminMapper.insertAdmin(admin);
         return new ResponseData(ExceptionMsg.SUCCESS, "success");
     }
 
