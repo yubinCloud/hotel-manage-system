@@ -8,6 +8,7 @@ import com.yubin.hotelSys.model.MonthTurnover;
 import com.yubin.hotelSys.result.ExceptionMsg;
 import com.yubin.hotelSys.result.ResponseData;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -62,7 +63,7 @@ public class OrderController {
      * @param newCheckinDTO 新订单的接收信息
      */
     @RequestMapping(value = "/addCheckin", method = RequestMethod.POST)
-    public Object addCheckinOrder(@RequestBody NewCheckinDTO newCheckinDTO) {
+    public Object addCheckinOrder(@RequestBody @Validated NewCheckinDTO newCheckinDTO) {
         if (newCheckinDTO.getDiscountRatio() == null) {
             newCheckinDTO.setDiscountRatio(1.0);
         }
