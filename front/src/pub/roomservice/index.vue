@@ -104,7 +104,7 @@ import AddDialog from './addService'
 import updateDialog from './addService'
 import historyService from './historyService'
 import { getServiceList,addService,updateService,delService,finishService } from '@/api/service';
-import { getempList } from '@/api/employee';
+import { fetchAdminList } from '@/api/employee';
 import { getCategoryList } from '@/api/category';
 import PageComponent from '@/components/Pagenation/index'
 import { formateDate } from '@/utils/formateDate';
@@ -143,7 +143,7 @@ export default {
   methods: {
     formateDate,
     getempList() {
-      getempList(null).then(res => {
+      fetchAdminList(null).then(res => {
         this.empList = this.handleEmp(res.data.data)
       })
     },

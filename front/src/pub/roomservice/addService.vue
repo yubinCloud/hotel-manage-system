@@ -25,7 +25,7 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="备注:" prop="remark">          
+        <el-form-item label="备注:" prop="remark">
           <el-input type="textarea" :rows="2" v-model="item.remark" resize="none" maxlength="200" show-word-limit palceholder="请输入备注"></el-input>
         </el-form-item>
       </el-form>
@@ -39,7 +39,7 @@
 
 <script>
 import { getPositionList } from '@/api/position';
-import { getempList } from '@/api/employee';
+import { fetchAdminList } from '@/api/employee';
 import { getCategoryList } from '@/api/category';
 export default {
   props: {
@@ -81,7 +81,7 @@ export default {
       }
     },
     getempList() {
-      getempList(null).then(res => {
+      fetchAdminList(null).then(res => {
         this.empList = this.handleEmp(res.data.data)
       })
     },

@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 // 员工查询
-export const getempList = params => { return request({ url: '/HotelManagement/json/employee/list', method: 'get', params: params }) }
+export const fetchAdminList = params => { return request({ url: 'api/admin/selectAdmin', method: 'get', params: params }) }
 
 // 新增员工
 export const addemp = params => { return request({ url: '/HotelManagement/json/employee/add', method: 'post', params: params }) }
