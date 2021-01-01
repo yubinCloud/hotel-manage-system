@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.yubin.hotelSys.dao.AdminMapper">
+
+    <resultMap id="adminMap" type="com.yubin.hotelSys.model.Admin">
+        <id property="id" column="aid" />
+        <result property="name" column="aname" />
+        <association property="role" javaType="com.yubin.hotelSys.model.AdminRole">
+            <id property="id" column="arid" />
+            <result property="name" column="arname" />
+        </association>
+    </resultMap>
+
+    <select id="selectAdmin" resultMap="adminMap" parameterType="com.yubin.hotelSys.dto.AdminSearchFormDTO">
+        SELECT a.id aid, a.name aname, pwd, role_id, tel_phone, ar.id, ar.name arname, grade
+        FROM hotel.admin a
+        LEFT JOIN hotel.adminrole ar ON a.role_id = ar.id
+        <where>
+            <if test="adminId != null">
+                a.id = #{adminId}
+            </if>
+            <if test="adminName != null">
+                AND a.name = #{adminName}
+            </if>
+        </where>
+    </select>
+
+    <select id="findAdmin" resultType="com.yubin.hotelSys.model.Admin">
+        SELECT *
+        FROM hotel.admin
+        WHERE id = #{account} AND pwd = #{pwd};
+    </select>
+
+    <insert id="insertAdmin" parameterType="com.yubin.hotelSys.model.Admin">
+        INSERT INTO hotel.admin
+        VALUES (#{id}, #{name}, #{pwd}, #{roleId}, #{telPhone});
+    </insert>
+
+    <select id="findAdminByAccount" resultMap="adminMap">
+        SELECT a.id aid, a.name aname, pwd, role_id, tel_phone, ar.id, ar.name arname, grade
+        FROM hotel.admin a LEFT JOIN hotel.AdminRole ar on a.role_id = ar.id
+        WHERE a.id = #{account};
+    </select>
+
+</mapper>

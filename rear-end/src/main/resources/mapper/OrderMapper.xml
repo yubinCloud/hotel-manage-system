@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.yubin.hotelSys.dao.OrderMapper">
+    <resultMap id="simplifyOrderMap" type="com.yubin.hotelSys.model.SimplifyOrder">
+        <id property="id" column="oid" />
+        <result property="roomId" column="rid" />
+    </resultMap>
+
+    <resultMap id="orderMap" type="com.yubin.hotelSys.model.Order">
+        <id property="id" column="oid" />
+        <result property="group" column="gp" />
+
+        <association property="room" javaType="com.yubin.hotelSys.model.Room">
+            <id property="id" column="rid" />
+            <result property="name" column="rname" />
+            <result property="desc" column="rdesc" />
+        </association>
+        <association property="guest" javaType="com.yubin.hotelSys.model.Guest">
+            <id property="id" column="id_num" />
+            <result property="name" column="gname" />
+        </association>
+    </resultMap>
+
+
+    <select id="orderedRooms" resultMap="simplifyOrderMap">
+        SELECT od.id oid, od.room_id rid
+        FROM hotel.order od
+        WHERE check_in_time > #{startTime} AND check_in_time &lt;= #{endTime}
+    </select>
+
+    <select id="aggregateMonthTurnover" resultType="com.yubin.hotelSys.model.MonthTurnover">
+        SELECT DATE_FORMAT(check_in_time, '%Y-%m') month, COUNT(*) orderCount, SUM(real_pay) money
+        FROM hotel.`order`
+        WHERE check_in_time > #{startTime} AND check_in_time &lt;= #{endTime}
+        GROUP BY DATE_FORMAT(check_in_time, '%Y-%m');
+    </select>
+
+    <select id="selectOrder" resultMap="orderMap">
+        SELECT od.id oid, room_id, guest_id, check_in_time, check_out_time, real_pay, od.`group` gp, r.id rid, r.name rname, type_id, floor, `desc` rdesc, id_num, g.name gname, phone, sex, age
+        FROM hotel.`order` od
+        LEFT JOIN hotel.room r ON r.id = od.room_id
+        LEFT JOIN hotel.guest g ON g.id_num = od.guest_id
+        <where>
+            <if test="roomId != null">
+                od.room_id LIKE #{roomId}
+            </if>
+            <if test="startTime != null">
+                AND check_in_time > #{startTime}
+            </if>
+            <if test="endTime != null">
+                AND check_in_time &lt;= #{endTime}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectOrderById" resultMap="orderMap">
+        SELECT od.id oid, room_id, guest_id, check_in_time, check_out_time, real_pay, od.`group` gp, r.id rid, r.name rname, type_id, floor, `desc` rdesc, id_num, g.name gname, phone, sex, age
+        FROM hotel.`order` od
+        LEFT JOIN hotel.room r ON r.id = od.room_id
+        LEFT JOIN hotel.guest g ON g.id_num = od.guest_id
+        WHERE od.id = ${orderId};
+    </select>
+
+    <select id="computeProfits" resultType="double">
+        SELECT SUM(real_pay) profit
+        FROM hotel.`order` as od
+        WHERE check_in_time > #{startTime} AND check_in_time &lt;= #{endTime};
+    </select>
+
+    <update id="checkout">
+        UPDATE hotel.`order`
+        SET check_out_time = NOW()
+        WHERE id = #{orderId, jdbcType=BIGINT};
+
+        UPDATE hotel.room r
+        SET r.status = ’空闲‘
+        WHERE r.id = (
+            SELECT o.room_id
+            FROM hotel.`order` o
+            WHERE o.id = #{orderId, jdbcType=BIGINT}
+            );
+    </update>
+
+    <insert id="addCheckin" parameterType="com.yubin.hotelSys.dto.NewCheckinDTO">
+        INSERT INTO hotel.`order`
+        (room_id, guest_id, check_in_time, `group`, real_pay, useDays)
+        SELECT #{roomId}, #{guestId}, NOW(), #{group}, rt.std_price * #{discountRatio, jdbcType=DOUBLE}, #{useDays, jdbcType=INTEGER}
+        FROM hotel.RoomType AS rt
+        WHERE rt.id = (
+            SELECT r.type_id
+            FROM hotel.Room r
+            WHERE r.id = #{roomId}
+        );
+
+        INSERT INTO hotel.guest
+        (id_num, name, phone, sex, age)
+        VALUES
+        (#{guestId}, #{guestName}, #{guestTel}, #{guestSex}, #{age, jdbcType=INTEGER})
+        ON DUPLICATE KEY UPDATE
+            name = #{guestName},
+            phone = #{guestTel},
+            sex = #{guestSex},
+            age = #{age};
+
+        UPDATE hotel.room r
+        SET r.status = '在住'
+        WHERE r.id = #{roomId};
+    </insert>
+</mapper>

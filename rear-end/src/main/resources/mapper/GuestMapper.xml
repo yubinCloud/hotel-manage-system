@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.yubin.hotelSys.dao.GuestMapper">
+    <resultMap id="guestMap" type="com.yubin.hotelSys.model.Guest">
+        <id property="id" column="id_num"/>
+    </resultMap>
+
+    <select id="queryGuestById" resultMap="guestMap">
+        SELECT *
+        FROM hotel.guest
+        WHERE id_num = #{gid};
+    </select>
+
+    <select id="queryGuestByName" resultMap="guestMap">
+        SELECT *
+        FROM hotel.guest
+        WHERE name REGEXP #{nameRegexp};
+    </select>
+
+    <select id="queryGuestByPhone" resultMap="guestMap">
+        SELECT *
+        FROM hotel.guest
+        WHERE phone REGEXP #{phoneRegexp};
+    </select>
+</mapper>
