@@ -21,11 +21,16 @@
                 </el-card>
             </el-col>
         </el-row>
+
+        <el-button type="primary" @click="backupDatabase()">备份数据库</el-button>
+        <el-button type="success" @click="recoverDatabase()">恢复数据库</el-button>
     </div>
+
 </template>
 
 <script>
 import { getLoginEmployee } from '@/api/login';
+import { backupDb, recoverDb } from '@/api/dashbord';
 import Schart from 'vue-schart';
 import bus from '../common/bus';
 export default {
@@ -62,6 +67,24 @@ export default {
                 const date = new Date(now - (6 - index) * 86400000);
                 item.name = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
             });
+        },
+        backupDatabase() {
+            backupDb().then(resp => {
+                if (resp['data']['code'] === 0) {
+                    alert("备份成功");
+                } else {
+                    alert(resp['data']['msg']);
+                }
+            })
+        },
+        recoverDatabase() {
+            recoverDb().then(resp => {
+                if (resp['data']['code'] === 0) {
+                    alert("恢复成功");
+                } else {
+                    alert(resp['data']['msg']);
+                }
+            })
         }
     }
 };
