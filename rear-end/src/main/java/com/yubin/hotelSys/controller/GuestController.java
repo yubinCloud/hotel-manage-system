@@ -30,7 +30,7 @@ public class GuestController {
         return new ResponseData(ExceptionMsg.SUCCESS, guestMapper.queryGuestByName(nameRegexp));
     }
 
-    @RequestMapping(value = "query/phone", method = RequestMethod.POST)
+    @RequestMapping(value = "/query/phone", method = RequestMethod.POST)
     public Object queryByPhone(@RequestBody Map<String, Object> json) {
         String phone = (String) json.get("phone");
         String phoneRegexp = ".*" + phone;
